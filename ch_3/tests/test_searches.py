@@ -24,6 +24,40 @@ def test_get_path():
 
     return
 
+def test_DFS():
+    a = Node(None, 'A',0)
+    b = Node(a, 'B', 1)
+    c = Node(b, 'C', 2)
+
+    q = [b,c,a]
+    q = DFS(q)
+    assert_equal(q, [a,b,c])
+
+def test_BFS():
+    a = Node(None, 'A',0)
+    b = Node(a, 'B', 1)
+    c = Node(b, 'C', 2)
+    q = [b,c,a]
+    q = BFS(q)
+    assert_equal(q, [c,b,a])
+
+def test_greedyBestFirstSearch():
+    a = Node(None, 'A',0,20)
+    b = Node(a, 'B', 1,30)
+    c = Node(b, 'C', 2,40)
+
+    q = [b,c,a]
+    q = greedyBestFirstSearch(q)
+    assert_equal(q,[c,b,a])
+
+def test_A_star():
+    a = Node(None, 'A',0,20,22)
+    b = Node(a, 'B', 1,30,25)
+    c = Node(b, 'C', 2,40,0)
+    q = [b,c,a]
+    q = A_star(q)
+    assert_equal(q,[b,a,c])
+
 def test_tree_search():
     goal_state = 'STATE_1_2_1'
     init_state = 'STATE_1'
@@ -33,9 +67,14 @@ def test_tree_search():
     PATH = tree_search(init_state, goal_state, f, BFS)
     assert_equal(PATH, ['STATE_1', 'STATE_1_2', 'STATE_1_2_1']) 
 
-    goal_state = 'STATE_2_2_2'
+    goal_state = 'STATE_1_2_2'
     PATH = tree_search(init_state, goal_state, f, DFS)
-    asset_equal(PATH, ['STATE_2', 'STATE_2_2', 'STATE_2_2_2'])
+    assert_equal(PATH, ['STATE_1', 'STATE_1_2', 'STATE_1_2_2'])
+   
+    goal_state = 'STATE_1_2_1'
+    init_state = 'STATE_1'
+    PATH = tree_search(init_state, goal_state, f, greedyBestFirstSearch)
+    assert_equal(PATH, ['STATE_1', 'STATE_1_2', 'STATE_1_2_1']) 
+  
+    return
 
-if __name__ == '__main__':
-    test_tree_search()
