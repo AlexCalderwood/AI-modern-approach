@@ -114,7 +114,7 @@ def greedyBestFirstSearch(Q):
     Q = sorted(Q, reverse=True, key=lambda x:x.g)
     return Q
    
-def A_star(Q):
+def uniformCost(Q):
     #for A star search, goes to the cheapest cost + heuristic node
     Q = sorted(Q, reverse=True, key=lambda x: x.g+x.h)
     return Q

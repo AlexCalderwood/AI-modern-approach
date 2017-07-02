@@ -50,12 +50,12 @@ def test_greedyBestFirstSearch():
     q = greedyBestFirstSearch(q)
     assert_equal(q,[c,b,a])
 
-def test_A_star():
+def test_uniform_cost():
     a = Node(None, 'A',0,20,22)
     b = Node(a, 'B', 1,30,25)
     c = Node(b, 'C', 2,40,0)
     q = [b,c,a]
-    q = A_star(q)
+    q = uniform_cost(q)
     assert_equal(q,[b,a,c])
 
 def test_tree_search():
