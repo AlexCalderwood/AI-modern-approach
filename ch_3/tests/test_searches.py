@@ -41,21 +41,21 @@ def test_BFS():
     q = BFS(q)
     assert_equal(q, [c,b,a])
 
-def test_greedyBestFirstSearch():
+def test_uniformCost():
     a = Node(None, 'A',0,20)
     b = Node(a, 'B', 1,30)
     c = Node(b, 'C', 2,40)
 
     q = [b,c,a]
-    q = greedyBestFirstSearch(q)
+    q = uniformCost(q)
     assert_equal(q,[c,b,a])
 
-def test_uniform_cost():
+def test_A_star():
     a = Node(None, 'A',0,20,22)
     b = Node(a, 'B', 1,30,25)
     c = Node(b, 'C', 2,40,0)
     q = [b,c,a]
-    q = uniform_cost(q)
+    q = A_star (q)
     assert_equal(q,[b,a,c])
 
 def test_tree_search():
@@ -73,7 +73,7 @@ def test_tree_search():
    
     goal_state = 'STATE_1_2_1'
     init_state = 'STATE_1'
-    PATH = tree_search(init_state, goal_state, f, greedyBestFirstSearch)
+    PATH = tree_search(init_state, goal_state, f, uniformCost)
     assert_equal(PATH, ['STATE_1', 'STATE_1_2', 'STATE_1_2_1']) 
   
     return

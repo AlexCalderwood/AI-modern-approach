@@ -9,7 +9,13 @@ class Node(object):
 
     methods are make_children(), which generates child nodes bsed on action_model(<current node state>)
 
-    get_<attributes> methods '''
+    get_<attributes> methods 
+    
+    costf defines the cost of child nodes relative to parent
+
+    costh should return score heuristic based on state at node. 
+
+    idea is this is a pretty general class, costf and costh should be modified for particular problem. '''
 
 
     def __init__(self, parent, state, c, g=0, h=None):
@@ -39,18 +45,23 @@ class Node(object):
 
         return s
 
-
     def make_children(self,action_model,count):
         child_states = action_model(self.state)
         self.children = []
         for cs in child_states:
             count += 1
             cg = self.cost_f(self.g)
-            c = Node(self,cs,count, cg)    
+            ch = self.cost_h(cs)
+            c = Node(self,cs,count, cg, ch)    
             self.children.append(c)
         return count
 
+    def cost_h(self, state):
+        #problem specific function to calculate goodness heuristic from state required!
+        return 0
+
     def cost_f(self, parent_cost):
+        #should be modified to be problem specific!
         return parent_cost + 1
 
     def get_children(self):
@@ -84,17 +95,11 @@ def tree_search(start_state, goal_state, action_model, q_sort_function, graph=Fa
     q = []
 
     while curr_N.get_state() != goal_state:
-        print curr_N
         c = curr_N.make_children(action_model,c)
         q.extend(curr_N.get_children())
         if not q:
             return 'No way to get to goal!'
         q = q_sort_function(q)
-        
-        for p in q:
-            print p.state
-        print ''
-    
         curr_N = q.pop()
     
     return get_path(curr_N)
@@ -109,12 +114,12 @@ def BFS(Q):
     Q = sorted(Q, reverse=True, key=lambda x:x.count)
     return Q
 
-def greedyBestFirstSearch(Q):
-    #for greedy best first search, goes to the cheapest one next
+def uniformCost(Q):
+    #for uniform cost, goes to the cheapest one next
     Q = sorted(Q, reverse=True, key=lambda x:x.g)
     return Q
    
-def uniformCost(Q):
+def A_star(Q):
     #for A star search, goes to the cheapest cost + heuristic node
     Q = sorted(Q, reverse=True, key=lambda x: x.g+x.h)
     return Q
